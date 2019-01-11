@@ -85,10 +85,11 @@ class Text2Pic(object):
         self.ascii_width = int(ascii_width)
         self.ascii_up_pixels = int(ascii_up)
 
+        self.ZERO = 0
         self.coordinate_x = self.ZERO
         self.coordinate_y = self.ZERO
         self.progressbar_num = self.ZERO
-        self.text_len = self.ZERO
+        self.text_length = self.ZERO
         self.paragraph_list = []
         self.img_list = []
         self.img = None
@@ -108,13 +109,12 @@ class Text2Pic(object):
         分割段落
         Split paragraph
         """
-        if not self.text:
-            self.text = ''
-        text_paragraph = self.text.replace('\n\n', '\n \n')
-        self.paragraph_list = text_paragraph.split('\n')
+        if isinstance(self.text, str) is not True:
+            raise ValueError('text must be string.')
+        self.paragraph_list = self.text.replace('\n\n', '\n \n').split('\n')
         # ---*--- 进度条 ---*--- #  progress bar
-        for i in self.paragraph_list:
-            self.text_len += len(i)
+        for paragraph in self.paragraph_list:
+            self.text_length += len(paragraph)
         # ---*---*---*---*---*--- #
         return self.paragraph_list
 
@@ -154,8 +154,8 @@ class Text2Pic(object):
                 # ---*--- 进度条 ---*--- #  progress bar
                 self.progressbar_num += 1
                 display_length = 50
-                percent_num = int(self.progressbar_num / self.text_len * 100)
-                percent_length = int(self.progressbar_num / self.text_len * display_length)
+                percent_num = int(self.progressbar_num / self.text_length * 100)
+                percent_length = int(self.progressbar_num / self.text_length * display_length)
                 sys.stdout.write('\r')
                 sys.stdout.write(
                     'Drawing| '"[%s>%s] %s" % ('=' * percent_length, ' ' * (display_length - percent_length),
