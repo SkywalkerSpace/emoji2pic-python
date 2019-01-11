@@ -17,14 +17,14 @@ def arrange_file_name(file_dir='AppleEmoji'):
         unicode_chip_list = list()
         for chip in base_name_chip_list:
             if len(chip) == 2:
-                unicode_chip = 'x' + str(chip)
+                unicode_chip = u'\\x' + chip
             elif len(chip) == 4:
-                unicode_chip = 'u' + str(chip)
+                unicode_chip = u'\\u' + chip
             elif len(chip) == 5:
-                unicode_chip = 'U000' + str(chip)
+                unicode_chip = u'\\U000' + chip
             else:
                 raise ValueError(chip)
-            unicode_chip_list.append(unicode_chip)
+            unicode_chip_list.append(unicode_chip.encode('utf-8').decode('unicode_escape'))
 
         if initial_unicode.get(unicode_chip_list[0]) is None:
             initial_unicode[unicode_chip_list[0]] = [len(unicode_chip_list)]
@@ -33,7 +33,7 @@ def arrange_file_name(file_dir='AppleEmoji'):
                 initial_unicode[unicode_chip_list[0]].append(len(unicode_chip_list))
                 initial_unicode[unicode_chip_list[0]] = sorted(initial_unicode[unicode_chip_list[0]], reverse=True)
 
-        unicode_name = '-'.join(unicode_chip_list)
+        unicode_name = ''.join(unicode_chip_list)
         unicode_to_path[unicode_name] = file
 
     print(initial_unicode)

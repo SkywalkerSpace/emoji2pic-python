@@ -1,8 +1,30 @@
 import os
 import sys
 from PIL import Image, ImageFont, ImageDraw
+import zxcvbn
 
 from .emoji_directory import INITIAL_UNICODE, UNICODE_TO_PATH
+
+RGB = 'RGB'
+RGB_WHITE = (255, 255, 255)
+RGB_BLACK = (0, 0, 0)
+RGBA = 'RGBA'
+RGBA_WHITE = (255, 255, 255, 1)
+RGBA_BLACK = (0, 0, 0, 255)
+RGBA_TRANSPARENT = (0, 0, 0, 0)
+DEFAULT_FONT_SIZE = 72
+DEFAULT_WIDTH = 1080
+ZERO = 0
+NEGATIVE = -1
+MARGIN_LEFT = DEFAULT_FONT_SIZE * 1
+MARGIN_RIGHT = DEFAULT_FONT_SIZE * 1
+MARGIN_TOP = DEFAULT_FONT_SIZE * 1
+MARGIN_BOTTOM = DEFAULT_FONT_SIZE * 1
+LINE_SPACE = DEFAULT_FONT_SIZE * 1
+
+EMOJI = 4
+FULL_WIDTH = 3
+HALF_WIDTH = 1
 
 
 class Text2Pic(object):
@@ -30,22 +52,6 @@ class Text2Pic(object):
 
     :return:class 'PIL.Image.Image'
     """
-    RGB = 'RGB'
-    RGB_WHITE = (255, 255, 255)
-    RGB_BLACK = (0, 0, 0)
-    RGBA = 'RGBA'
-    RGBA_WHITE = (255, 255, 255, 1)
-    RGBA_BLACK = (0, 0, 0, 255)
-    RGBA_TRANSPARENT = (0, 0, 0, 0)
-    DEFAULT_FONT_SIZE = 72
-    DEFAULT_WIDTH = 1080
-    ZERO = 0
-    NEGATIVE = -1
-    MARGIN_LEFT = DEFAULT_FONT_SIZE * 1
-    MARGIN_RIGHT = DEFAULT_FONT_SIZE * 1
-    MARGIN_TOP = DEFAULT_FONT_SIZE * 1
-    MARGIN_BOTTOM = DEFAULT_FONT_SIZE * 1
-    LINE_SPACE = DEFAULT_FONT_SIZE * 1
 
     def __init__(self, text, font, emoji_folder,
                  ascii_font=None,
