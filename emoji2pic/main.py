@@ -25,7 +25,7 @@ LINE_SPACE = DEFAULT_FONT_SIZE * 1
 EMOJI = 4
 FULL_WIDTH = 3
 HALF_WIDTH = 1
-EMOJI_PIC_SIZE = 72
+emoji_img_SIZE = 72
 
 
 class Emoji2Pic(object):
@@ -208,10 +208,10 @@ class Emoji2Pic(object):
                                       font=font_type)
         return
 
-    def get_emoji_pic(self):
+    def get_emoji_img(self):
         """
         打开emoji图片
-        emoji file name
+        emoji file
         """
         length_list = INITIAL_UNICODE[self.char]
         emoji_unicode = None
@@ -229,33 +229,32 @@ class Emoji2Pic(object):
         if emoji_file_name is None:
             self.char_next = NEGATIVE
             return None
-        emoji_pic = Image.open(os.path.join(self.emoji_folder, emoji_file_name))
+        emoji_img = Image.open(os.path.join(self.emoji_folder, emoji_file_name))
 
-        return emoji_pic
+        return emoji_img
 
     def draw_emoji(self):
         """
         绘制emoji
         """
-        emoji_pic = self.get_emoji_pic()
-        if emoji_pic is None:
+        emoji_img = self.get_emoji_img()
+        if emoji_img is None:
             self.x -= self.font_size
             return
 
         # 更改尺寸
-        if self.font_size != EMOJI_PIC_SIZE:
-            emoji_pic = emoji_pic.resize((self.font_size, self.font_size), Image.ANTIALIAS)
+        if self.font_size != emoji_img_SIZE:
+            emoji_img = emoji_img.resize((self.font_size, self.font_size), Image.ANTIALIAS)
         # 分离通道
-        if emoji_pic.mode == 'RGBA':
-            r, g, b, a = emoji_pic.split()  # 分离alpha通道  split alpha channel
-        elif emoji_pic.mode == 'LA':
-            l, a = emoji_pic.split()
+        if emoji_img.mode == 'RGBA':
+            r, g, b, a = emoji_img.split()  # 分离alpha通道  split alpha channel
+        elif emoji_img.mode == 'LA':
+            l, a = emoji_img.split()
         else:  # image.mode == 'P'
-            emoji_pic = emoji_pic.convert('RGBA')
-            r, g, b, a = emoji_pic.split()
+            emoji_img = emoji_img.convert('RGBA')
+            r, g, b, a = emoji_img.split()
         # 绘制
-        self.img.paste(emoji_pic, (self.x, self.y + self.emoji_offset), mask=a)
-
+        self.img.paste(emoji_img, (self.x, self.y + self.emoji_offset), mask=a)
         return
 
     def combine_img(self):
@@ -263,10 +262,10 @@ class Emoji2Pic(object):
         合并图片
         Merge picture
         """
-        # 创建上边距图片
+        # 创建上边距图片 Create top margin picture
         img_top = self.make_blank_img(img_width=self.img_width, img_height=self.margin_top)
         self.img_list.insert(0, img_top)
-        # 创建下边距图片  Create bottom margin picture
+        # 创建下边距图片 Create bottom margin picture
         img_bottom = self.make_blank_img(img_width=self.img_width, img_height=self.margin_bottom)
         self.img_list.append(img_bottom)
 
