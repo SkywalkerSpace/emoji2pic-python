@@ -8,7 +8,7 @@ RGB = 'RGB'
 RGB_WHITE = (255, 255, 255)
 RGB_BLACK = (0, 0, 0)
 RGBA = 'RGBA'
-RGBA_WHITE = (255, 255, 255, 1)
+RGBA_WHITE = (255, 255, 255, 255)
 RGBA_BLACK = (0, 0, 0, 255)
 RGBA_TRANSPARENT = (0, 0, 0, 0)
 ZERO = 0
@@ -20,37 +20,41 @@ DEFAULT_IMAGE_WIDTH = 1080
 EMOJI = 4
 FULL_WIDTH = 3
 HALF_WIDTH = 1
-emoji_img_SIZE = 72
+EMOJI_IMG_SIZE = 72
 
 
 class Emoji2Pic(object):
-    """将带有emoji的文本绘制到图片上，返回class 'PIL.Image.Image'。
-       Text with emoji draw to the picture.return class 'PIL.Image.Image'
+    """将带有emoji的文本绘制到图片上，返回 'PIL.Image.Image'。
+       Text with emoji draw to the image.return class 'PIL.Image.Image'
 
     :param text: 文本内容
-    :param font: 字体
-    :param half_font: ASCII字体
-    :param emoji_folder: emoji图片和编码文件夹
-    :param width: 图片宽度
-    :param font_size: 文字大小
-    :param color_mode: 图片底色模式
+    :param font: 字体文件路径
+    :param emoji_folder: emoji图片文件夹路径
+
+    :param width: 图片宽度（像素）
+    :param font_size: 文字大小（像素）
     :param font_color: 文字颜色
+    :param color_mode: 图片底色模式
     :param background_color: 图片底色
-    :param line_space: 行间距
-    :param left: 左边距    left margins
-    :param right: 右边距
-    :param top: 上边距
-    :param bottom: 下边距
+    :param line_space: 行间距（像素）
+    :param left: 左边距（像素） left margins
+    :param right: 右边距（像素）
+    :param top: 上边距（像素）
+    :param bottom: 下边距（像素）
+    :param half_font: 半角字符字体路径
+    :param half_font_width: 半角字符字体宽度（像素）
+    :param half_font_offset: 半角字符纵轴偏移量（像素）
+    :param emoji_offset: emoji纵轴偏移量（像素）
+    :param progress_bar: 控制台输出进度条
 
     :return:class 'PIL.Image.Image'
     """
 
     def __init__(self, text, font, emoji_folder,
-
                  width=DEFAULT_IMAGE_WIDTH,
                  font_size=DEFAULT_FONT_SIZE,
-                 color_mode=RGB,
                  font_color=RGB_BLACK,
+                 color_mode=RGB,
                  background_color=RGB_WHITE,
                  line_space=DEFAULT_FONT_SIZE,
                  left=DEFAULT_FONT_SIZE,
@@ -66,17 +70,17 @@ class Emoji2Pic(object):
         self.text = str(text)
         self.font = font
         self.emoji_folder = emoji_folder
-        self.half_font = half_font if half_font is not None else font
         self.img_width = int(width)
         self.font_size = int(font_size)
-        self.background_color_mode = color_mode
         self.font_color = font_color
+        self.background_color_mode = color_mode
         self.background_color = background_color
         self.line_space = int(line_space)
         self.margin_left = int(left)
         self.margin_right = int(right)
         self.margin_top = int(top)
         self.margin_bottom = int(bottom)
+        self.half_font = half_font if half_font is not None else font
         self.half_font_width = int(half_font_width) if half_font_width is not None else int(self.font_size / 2)
         self.half_font_offset = half_font_offset
         self.emoji_offset = int(emoji_offset)
@@ -110,7 +114,7 @@ class Emoji2Pic(object):
     def make_blank_img(self, img_width=None, img_height=None):
         """
         创建空白图片
-        Make a blank picture
+        Make a blank image
         """
         if img_width is None:
             img_width = self.img_width
@@ -210,7 +214,7 @@ class Emoji2Pic(object):
     def get_emoji_img(self):
         """
         打开emoji图片
-        emoji file
+        Open emoji image
         """
         length_list = INITIAL_UNICODE[self.char]
         emoji_unicode = None
@@ -235,6 +239,7 @@ class Emoji2Pic(object):
     def draw_emoji(self):
         """
         绘制emoji
+        Draw emoji
         """
         emoji_img = self.get_emoji_img()
         if emoji_img is None:
@@ -242,7 +247,7 @@ class Emoji2Pic(object):
             return
 
         # 更改尺寸
-        if self.font_size != emoji_img_SIZE:
+        if self.font_size != EMOJI_IMG_SIZE:
             emoji_img = emoji_img.resize((self.font_size, self.font_size), Image.ANTIALIAS)
         # 分离通道
         if emoji_img.mode == 'RGBA':
@@ -259,12 +264,12 @@ class Emoji2Pic(object):
     def combine_img(self):
         """
         合并图片
-        Merge picture
+        Merge image
         """
-        # 创建上边距图片 Create top margin picture
+        # 创建上边距图片 Create top margin image
         img_top = self.make_blank_img(img_width=self.img_width, img_height=self.margin_top)
         self.img_list.insert(0, img_top)
-        # 创建下边距图片 Create bottom margin picture
+        # 创建下边距图片 Create bottom margin image
         img_bottom = self.make_blank_img(img_width=self.img_width, img_height=self.margin_bottom)
         self.img_list.append(img_bottom)
 
@@ -272,7 +277,7 @@ class Emoji2Pic(object):
         y = ZERO
         for img in self.img_list:
             background_height += img.size[1]
-
+        # 创建背景图片图片 Create background image
         background_img = self.make_blank_img(img_width=self.img_width, img_height=background_height)
 
         for img in self.img_list:
