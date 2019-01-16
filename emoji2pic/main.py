@@ -16,11 +16,6 @@ NEGATIVE = -1
 
 DEFAULT_FONT_SIZE = 72
 DEFAULT_IMAGE_WIDTH = 1080
-MARGIN_LEFT = DEFAULT_FONT_SIZE * 1
-MARGIN_RIGHT = DEFAULT_FONT_SIZE * 1
-MARGIN_TOP = DEFAULT_FONT_SIZE * 1
-MARGIN_BOTTOM = 0
-LINE_SPACE = DEFAULT_FONT_SIZE * 1
 
 EMOJI = 4
 FULL_WIDTH = 3
@@ -57,13 +52,14 @@ class Emoji2Pic(object):
                  color_mode=RGB,
                  font_color=RGB_BLACK,
                  background_color=RGB_WHITE,
-                 line_space=LINE_SPACE,
-                 left=MARGIN_LEFT,
-                 right=MARGIN_RIGHT,
-                 top=MARGIN_TOP,
-                 bottom=MARGIN_BOTTOM,
+                 line_space=DEFAULT_FONT_SIZE,
+                 left=DEFAULT_FONT_SIZE,
+                 right=DEFAULT_FONT_SIZE,
+                 top=DEFAULT_FONT_SIZE,
+                 bottom=ZERO,
                  half_font=None,
                  half_font_width=None,
+                 half_font_offset=ZERO,
                  emoji_offset=ZERO,
                  progress_bar=True
                  ):
@@ -82,6 +78,7 @@ class Emoji2Pic(object):
         self.margin_top = int(top)
         self.margin_bottom = int(bottom)
         self.half_font_width = int(half_font_width) if half_font_width is not None else int(self.font_size / 2)
+        self.half_font_offset = half_font_offset
         self.emoji_offset = int(emoji_offset)
         self.need_progress_bar = progress_bar
 
@@ -200,9 +197,11 @@ class Emoji2Pic(object):
         """
         if half_width is True:
             font_type = self.half_font_type
+            y = self.y - self.half_font_offset
         else:
             font_type = self.full_width_font_type
-        ImageDraw.Draw(self.img).text(xy=(self.x, self.y),
+            y = self.y
+        ImageDraw.Draw(self.img).text(xy=(self.x, y),
                                       text=self.char,
                                       fill=self.font_color,
                                       font=font_type)
@@ -216,12 +215,12 @@ class Emoji2Pic(object):
         length_list = INITIAL_UNICODE[self.char]
         emoji_unicode = None
         for length in length_list:
-            emoji_unicode = self.paragraph[self.char_index:self.char_index + length]
-            if emoji_unicode in UNICODE_TO_PATH:
-                self.char_next = self.char_index + length
+            emoji_unicode_temp = self.paragraph[self.char_index:self.char_index + length]
+            if emoji_unicode_temp in UNICODE_TO_PATH:
+                emoji_unicode = emoji_unicode_temp
+                self.char_next = self.char_index + length  # 跳过字符
                 break
-            else:
-                emoji_unicode = None
+
         if emoji_unicode is None:
             self.char_next = NEGATIVE
             return None
