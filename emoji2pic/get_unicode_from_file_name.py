@@ -1,7 +1,11 @@
 import os
 
 
-def arrange_file_name(file_dir='AppleEmoji'):
+def organize_file_name(file_dir='AppleEmoji'):
+    """
+    从emoji图片文件名整理出对应的Unicode
+    GET Unicode from file name
+    """
     for root, dirs, files in os.walk(file_dir):
         pass
 
@@ -42,4 +46,4 @@ def arrange_file_name(file_dir='AppleEmoji'):
 
 
 if __name__ == '__main__':
-    arrange_file_name()
+    organize_file_name()
