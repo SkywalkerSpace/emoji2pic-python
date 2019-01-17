@@ -199,6 +199,9 @@ class Emoji2Pic(object):
         绘制文本
         Draw character
         """
+        if self.char in ('\u200d', '\ufe0f', '\u20e3'):
+            self.x -= self.font_size
+            return
         if half_width is True:
             font_type = self.half_font_type
             y = self.y - self.half_font_offset
