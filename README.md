@@ -22,7 +22,7 @@ from emoji2pic import Emoji2Pic
 
 instance = Emoji2Pic(text='🌷👌🌙⭕\n花好月圆', font='SourceHanSans-Light.ttc', emoji_folder='AppleEmoji')
 img = instance.make_img()
-img.save('tu.png')
+img.save('example.jpg')
 ```
 
 ## 使用方法 Instructions
