@@ -6,15 +6,15 @@ Apple emoji and text to image
 ## 介绍 Introduction
 
 使用Python Pillow根据unicode将文本和emoji绘制到图片上  
-可自选字体，字号，行距，页边距，颜色，图片宽度和透明度等  
+可自选字体，字号，行距，页边距，颜色，图片宽度和透明度等
 
 ## 开发进度 Progress
 https://emojipedia.org/apple/ios-12.1/  
-目前完成匹配Apple iOS 12.1 emoji 共2776个   
+目前完成匹配Apple iOS 12.1 emoji 共2776个
 
 ## 依赖库 Dependencies
 
-Pillow  
+Pillow
 
 ## 简单入门实例 Example
 ```python
