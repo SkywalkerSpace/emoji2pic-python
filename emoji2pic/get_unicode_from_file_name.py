@@ -18,9 +18,12 @@ def organize_file_name(file_dir='AppleEmoji'):
         base_name = file[eng:-4].replace('_', '-')
         base_name_chip_list = base_name.split('-')
 
+        keycap = False
         unicode_chip_list = list()
         for chip in base_name_chip_list:
             if len(chip) == 2:
+                if chip in ('23', '2a', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39',):
+                    keycap = True
                 unicode_chip = u'\\x' + chip
             elif len(chip) == 4:
                 unicode_chip = u'\\u' + chip
@@ -40,8 +43,19 @@ def organize_file_name(file_dir='AppleEmoji'):
         unicode_name = ''.join(unicode_chip_list)
         unicode_to_path[unicode_name] = file
 
-    print(initial_unicode)
-    print(unicode_to_path)
+        if keycap is True:
+            initial_unicode[unicode_chip_list[0]].append(2)
+            keycap_unicode_name = ''.join([unicode_chip_list[0], unicode_chip_list[2]])
+            unicode_to_path[keycap_unicode_name] = file
+
+    with open('emoji_directory.py', 'w', encoding='utf8') as f:
+        f.write('INITIAL_UNICODE = ')
+        f.write(str(initial_unicode))
+        f.write('\n')
+        f.write('UNICODE_TO_PATH = ')
+        f.write(str(unicode_to_path))
+        f.write('\n')
+
     return
 
 
