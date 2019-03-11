@@ -43,7 +43,7 @@ def organize_file_name(file_dir='AppleEmoji'):
         unicode_name = ''.join(unicode_chip_list)
         unicode_to_path[unicode_name] = file
 
-        if keycap is True:
+        if keycap is True:  # 数字emoji
             initial_unicode[unicode_chip_list[0]].append(2)
             keycap_unicode_name = ''.join([unicode_chip_list[0], unicode_chip_list[2]])
             unicode_to_path[keycap_unicode_name] = file

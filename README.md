@@ -1,5 +1,5 @@
 # emoji2pic-python
-Apple emoji and text to image
+Apple emoji and text to picture
 
 [TOC]
 
