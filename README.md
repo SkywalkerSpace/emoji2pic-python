@@ -1,5 +1,6 @@
 # emoji2pic-python
 Apple emoji and text to image
+
 [TOC]
 
 ## 介绍 Introduction
@@ -8,12 +9,25 @@ Apple emoji and text to image
 可自选字体，字号，行距，页边距，颜色，图片宽度和透明度等  
 
 ## 开发进度 Progress
-https://emojipedia.org/apple/ios-12.1/
+https://emojipedia.org/apple/ios-12.1/  
 目前完成匹配Apple iOS 12.1 emoji 共2776个   
 
 ## 依赖库 Dependencies
 
 Pillow  
+
+## 简单入门实例 Example
+```python
+from emoji2pic import Emoji2Pic
+
+content = '🌷👌🌙⭕\n花好月圆'
+
+instance = Emoji2Pic(text=content, font='SourceHanSans-Light.ttc', emoji_folder='AppleEmoji')
+img = instance.make_img()
+print('\nSaving...')
+img.save('tu.png')
+print('Finished| Pic Size:', img.size)
+```
 
 ## 使用方法 Instructions
 
@@ -51,18 +65,5 @@ Pillow
 3. emoji纵轴偏移几像素  
 解决方法：使用emoji_offset，自定义emoji字符纵轴偏移
 
-## 简单入门实例 Example
-```python
-from emoji2pic import Emoji2Pic
-
-content = '🌷👌🌙⭕\n花好月圆'
-
-instance = Emoji2Pic(text=content, font='SourceHanSans-Light.ttc', emoji_folder='AppleEmoji')
-img = instance.make_img()
-print('\nSaving...')
-img.save('tu.png')
-print('Finished| Pic Size:', img.size)
-
-```
 # 许可 License
 MIT license.
