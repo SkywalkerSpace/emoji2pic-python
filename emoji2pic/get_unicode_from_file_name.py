@@ -49,12 +49,7 @@ def organize_file_name(file_dir='AppleEmoji'):
             unicode_to_path[keycap_unicode_name] = file
 
     with open('emoji_directory.py', 'w', encoding='utf8') as f:
-        f.write('INITIAL_UNICODE = ')
-        f.write(str(initial_unicode))
-        f.write('\n')
-        f.write('UNICODE_TO_PATH = ')
-        f.write(str(unicode_to_path))
-        f.write('\n')
+        f.write('INITIAL_UNICODE = ' + str(initial_unicode) + '\n'+'UNICODE_TO_PATH = '+str(unicode_to_path)+'\n')
 
     return
 
