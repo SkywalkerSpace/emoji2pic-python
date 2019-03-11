@@ -24,9 +24,7 @@ content = '🌷👌🌙⭕\n花好月圆'
 
 instance = Emoji2Pic(text=content, font='SourceHanSans-Light.ttc', emoji_folder='AppleEmoji')
 img = instance.make_img()
-print('\nSaving...')
 img.save('tu.png')
-print('Finished| Pic Size:', img.size)
 ```
 
 ## 使用方法 Instructions
