@@ -185,7 +185,9 @@ class Emoji2Pic(object):
         Character classification
         """
         if self.char in INITIAL_UNICODE:
-            if u'\x2a' <= self.char <= u'\x39' and self.paragraph[self.char_index:self.char_index + 3] not in UNICODE_TO_PATH and self.paragraph[self.char_index:self.char_index + 2] not in UNICODE_TO_PATH:
+            if u'\x2a' <= self.char <= u'\x39' \
+                    and self.paragraph[self.char_index:self.char_index + 3] not in UNICODE_TO_PATH \
+                    and self.paragraph[self.char_index:self.char_index + 2] not in UNICODE_TO_PATH:
                 return HALF_WIDTH  # 半角字符
             return EMOJI  # emoji
         elif u'\x20' <= self.char <= u'\x7e':
